@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class GalleryManager : MonoBehaviour
 {
     public Image image;
-    public string currentSpriteName = " ";
+    private string currentSpriteName = " ";
 
     public void SetImage(string input)
     {
-        Sprite sprite  = Resources.Load<Sprite>("Flavour/" + input);
+        Sprite sprite  = Resources.Load<Sprite>("Gallery/" + input);
 
         if (input == currentSpriteName)
         {
@@ -23,9 +23,8 @@ public class GalleryManager : MonoBehaviour
             currentSpriteName = input;
             ShowImage();
         }
-
     }
 
     public void ShowImage() { image.enabled = true; }
-    public void HideImage() { image.enabled = false; }
+    public void HideImage() { image.enabled = false; currentSpriteName = ""; }
 }

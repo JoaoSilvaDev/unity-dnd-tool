@@ -18,6 +18,7 @@ public class MapManager : MonoBehaviour
     public List<Button> playerMapCovers = new List<Button>();
 
     private MainManager mainManager;
+    private string currentMapName = "";
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class MapManager : MonoBehaviour
     {
         if (playerMapParent.transform.childCount > 0)
         {
-            Destroy(playerMapParent.transform.GetChild(0).gameObject);
+            Destroy(playerMap);
             playerMap = Instantiate(dmMap, playerMapParent.transform) as GameObject;
         }
         else
@@ -87,7 +88,7 @@ public class MapManager : MonoBehaviour
 
         if(dmMapParent.transform.childCount > 0)
         {
-            Destroy(dmMapParent.transform.GetChild(0).gameObject);
+            RemoveMap();
             dmMap = Instantiate(map, dmMapParent.transform) as GameObject;
         }
         else
@@ -99,5 +100,13 @@ public class MapManager : MonoBehaviour
 
         DetectMapCovers();
         CreateCoversOnPlayerMap();
+    }
+
+    public void RemoveMap()
+    {
+        if(dmMap)
+            Destroy(dmMap);
+        if(playerMap)
+            Destroy(playerMap);
     }
 }
