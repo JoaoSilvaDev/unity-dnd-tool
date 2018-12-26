@@ -32,4 +32,12 @@ public class AudioManager : MonoBehaviour
             s.source.Stop();
         }
     }
+
+    public void PlayOnTop(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Debug.Log(s.name);
+        s.source.Play();
+    }
+
 }

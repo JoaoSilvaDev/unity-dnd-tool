@@ -38,8 +38,7 @@ public class CommandPrompt : MonoBehaviour
 
     public void loadmap(string input)
     {
-        GameObject m = Resources.Load<GameObject>("Maps/" + input);
-        mapManager.NewMap(m);
+        mapManager.LoadMap(input);
     }
 
     public void loadscene(string input)

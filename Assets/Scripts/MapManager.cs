@@ -26,11 +26,21 @@ public class MapManager : MonoBehaviour
 
     private void DetectMapCovers()
     {
-        Debug.Log(dmMap.transform.childCount); 
+        dmMapCovers.Clear();
+
+        print(dmMap.transform.childCount);
         for (int i = 0; i < dmMap.transform.childCount; i++)
         {
             Button button = dmMap.transform.GetChild(i).GetComponent<Button>();
             button.onClick.AddListener(delegate { RemoveCover(button.gameObject); });
+
+            ColorBlock buttonColors = button.colors;
+            buttonColors.normalColor = new Color(0, 0, 0, .85f);
+            buttonColors.highlightedColor = new Color(0, 0, 0, 0.7f);
+            buttonColors.pressedColor = new Color(0, 0, 0, 0.6f);
+            button.colors = buttonColors;
+
+            print(button.colors.normalColor);
 
             dmMapCovers.Add(button);
         }
@@ -38,17 +48,30 @@ public class MapManager : MonoBehaviour
 
     private void CreateCoversOnPlayerMap()
     {
-        playerMap = Instantiate(dmMap, playerMapParent.transform) as GameObject;
-        playerMap.name = "Player Map";
+        if (playerMapParent.transform.childCount > 0)
+        {
+            Destroy(playerMapParent.transform.GetChild(0).gameObject);
+            playerMap = Instantiate(dmMap, playerMapParent.transform) as GameObject;
+        }
+        else
+        {
+            playerMap = Instantiate(dmMap, playerMapParent.transform) as GameObject;
+        }
+
+        playerMapCovers.Clear();
+
 
         for (int i = 0; i < playerMap.transform.childCount; i++)
         {
-            playerMapCovers.Add(playerMap.transform.GetChild(i).GetComponent<Button>());
+            Button button = playerMap.transform.GetChild(i).GetComponent<Button>();
 
-            ColorBlock buttonColors = playerMapCovers[i].colors;
-            buttonColors.normalColor = Color.black;
+            ColorBlock buttonColors = button.colors;
+            buttonColors.normalColor = new Color(0, 0, 0, 1f);
+            buttonColors.highlightedColor = new Color(0, 0, 0, 1f);
+            buttonColors.pressedColor = new Color(0, 0, 0, 1f);
+            button.colors = buttonColors;
 
-            playerMapCovers[i].colors = buttonColors;
+            playerMapCovers.Add(button);
         }
     }
 
@@ -58,9 +81,22 @@ public class MapManager : MonoBehaviour
         mainManager.ToggleObject(playerMapCovers[index].gameObject);
     }
 
-    public void NewMap(GameObject map)
+    public void LoadMap(string input)
     {
-        dmMap = Instantiate(map, dmMapParent.transform) as GameObject;
+        GameObject map = Resources.Load<GameObject>("Maps/" + input);
+
+        if(dmMapParent.transform.childCount > 0)
+        {
+            Destroy(dmMapParent.transform.GetChild(0).gameObject);
+            dmMap = Instantiate(map, dmMapParent.transform) as GameObject;
+        }
+        else
+        {
+            dmMap = Instantiate(map, dmMapParent.transform) as GameObject;
+        }
+
+        dmMap.name = "DM Map";
+
         DetectMapCovers();
         CreateCoversOnPlayerMap();
     }
