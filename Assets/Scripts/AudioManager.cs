@@ -16,13 +16,20 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void Play(string name)
+    public void Toggle(string name)
     {
-        StopAllSounds();
-
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        Debug.Log(s.name);
-        s.source.Play();
+
+        if (s.playing)
+        {
+            s.playing = false;
+            s.source.Stop();
+        }
+        else
+        {
+            s.playing = true;
+            s.source.Play();
+        }
     }
 
     public void StopAllSounds()
@@ -32,12 +39,4 @@ public class AudioManager : MonoBehaviour
             s.source.Stop();
         }
     }
-
-    public void PlayOnTop(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        Debug.Log(s.name);
-        s.source.Play();
-    }
-
 }

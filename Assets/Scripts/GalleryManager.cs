@@ -28,3 +28,4 @@ public class GalleryManager : MonoBehaviour
     public void ShowImage() { image.enabled = true; }
     public void HideImage() { image.enabled = false; currentSpriteName = ""; }
 }
+ 
